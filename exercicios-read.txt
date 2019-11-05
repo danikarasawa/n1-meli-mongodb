@@ -16,21 +16,25 @@ db.alunas.find({"nasceuEmSp":"true"}).pretty()
 db.alunas.find({"livros.titulo":"Java - Web Developers"}).pretty()
 
 6.	Selecione todos os registros em que a aluna tenha o livro “Clean Code A” e o nome “Helena”. 
-db.alunas.find({$and:[{"nome": "Helena", "livros.titulo": "Clean Code A"}]}).pretty()
+db.alunas.find({"nome": "Helena", "livros.titulo": "Clean Code A"}).pretty()
+db.alunas.find({$and:[{"nome": "Helena", "livros.titulo": "Clean Code A"]}).pretty()
 
 7.	Selecione todos os registros em que a aluna não tenha nascido em sp e tenha o livro Cangaceiro JavaScript.
 db.alunas.find({$and:[{"nasceuEmSp": "false", "livros.titulo": "Cangaceiro JavaScript"}]}).pretty()
 
 8.	Selecione todos os registros em que a aluna contenha  o livro Java – Web Developers ou Clean Code B. Primeiro: realize o exercício com o operador ou e posteriormente realize o exercício com o operador in.
-db.alunas.find({$or:[{"nasceuEmSp": "false"}, {"livros.titulo": "Java – Web Developers"}, {"livros.titulo": "Clean Code B"}]}).pretty()
+db.alunas.find({$or:[{"livros.titulo": "Java – Web Developers"}, {"livros.titulo": "Clean Code B"}]}).pretty()
 
-db.alunas.find({“livros”:{$in:[{"titulo":"Clean Code B", "livros.titulo": "Java – Web Developers"}]}}).pretty()
+db.alunas.find({“livros.titulo”:{$in:["Clean Code B", "Java – Web Developers"]}}).pretty()
 
 9.	Pegue o exercício acima e inclua também aonde a aluna pode ter nascido em sp.
-db.alunas.find({$or:[{"nasceuEmSp": "false"}, {"livros.titulo": "Java – Web Developers"}, {"livros.titulo": "Clean Code B"}, {"nasceuEmSp": "true"}]}).pretty()
+db.alunas.find({$or:[{"livros.titulo": "Java – Web Developers"}, {"livros.titulo": "Clean Code B"}, {"nasceuEmSp": "true"}]}).pretty()
 
 db.alunas.find({“livros”:{$in:[{"titulo":"Clean Code B", "livros.titulo": "Java – Web Developers", "nasceuEmSp": "true"}]}}).pretty()
 
 Utilizando os dois operadores juntos. $or e $in.
 10.	Procure todas as alunas que tenham nascido em são paulo ou os livros ‘MySQL’ e ‘MongoDB’.
 db.alunas.find({$in:[{"livros.titulo": "Clean Code"}, {"livros.titulo": "Eloquente JavaScript"}, {"nasceuEmSp": {$or : ["true"]}}]}).pretty()
+
+//resposta da Ju
+db.alunas.find({$or:[{"nasceuEmSp": "true"}, {"livros.titulo": {$in:["Clean Code A", "Eloquente JavaScript"]}}]}).pretty()
