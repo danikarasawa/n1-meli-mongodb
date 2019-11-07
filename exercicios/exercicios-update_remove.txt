@@ -1,0 +1,79 @@
+Exercícios
+1.	Atualize os registros criados no exercício anterior, com os filtros abaixo (não se esqueça de buscar pelo _id):
+
+Deixe todos os registros criados acima que estiverem como true para false, e vice-versa.
+
+db.alunas.update([
+{"nome": "Julia"},{
+    $set: {"nasceuEmSp": false}
+}, 
+
+{"nome": "Lucia"}{
+    $set: {"nasceuEmSp": false}
+},
+
+{"nome": "Leila"}{
+    $set: {"nasceuEmSp": false}
+}
+])
+
+
+db.alunas.update([
+{"nome": "Marcia"},{
+    $set: {"nasceuEmSp": true}
+}, 
+
+{"nome": "Silvia"}{
+    $set: {"nasceuEmSp": true}
+}
+
+])
+
+
+Atualize a data de nascimento de 2 alunas.
+
+db.alunas.update([
+{"nome": "Marcia"},{
+    $set: {"dateOfBirth": "1980-07-20T08:30:00.000Z"}
+}, 
+
+{"nome": "Silvia"}{
+    $set: {"dateOfBirth": "1976-07-03T08:30:00.000Z"}
+}
+
+])
+
+
+Inclua pelo menos 3 livros que elas tenham lido.
+
+db.alunas.update([
+{"nome": "Marcia"},{
+    $set: {"livros": [
+        {"titulo":"HTML" , "leu": true},
+        {"titulo": "JavaScript", "leu": true},
+        {"titulo": "Java", "leu": true}
+        ]}
+}, 
+
+{"nome": "Silvia"}{
+    $set: {"livros": [{"titulo":"NodeJS" , "leu": true},
+        {"titulo": "MongoDB", "leu": true},
+        {"titulo": "Clean Architecture", "leu": true}
+        ]}
+}
+
+])
+
+2. Exclua 5 itens dada uma determinada condição:
+
+Por ordenação de inserção, os dois primeiros que foram inseridos.
+
+db.alunas.delete({}).sort({_id:-1}).limit(2).pretty()
+
+Por ordem alfabética, os dois primeiros.
+
+db.alunas.delete({}, {"livros.titulo": 1, _id: 0}).sort({"livros.titulo": 1}).limit(2).pretty()
+
+Por ordem de data de nascimento decrescente, a primeira data.
+
+db.alunas.delete({}, {"dateOfBirth": 1, _id: 0}).sort({"dateOfBirth": - 1}).limit(1).pretty()
