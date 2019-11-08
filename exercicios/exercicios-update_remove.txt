@@ -3,7 +3,14 @@ Exercícios
 
 Deixe todos os registros criados acima que estiverem como true para false, e vice-versa.
 
-db.alunas.update([
+//CÓDIGO DO MURILO
+db.alunas.updateMany({"nasceuEmSp": "true"}, {$set:{"nasceuEmSp":"false", "trocou": true}})
+db.alunas.updateMany({"nasceuEmSp": "false", "trocou": {$existis: false}}, {$set:{"nasceuEmSp":"true", "trocou": true}}) // DEPOIS FAZ UM UNSET PRA TIRAR A VARIÁVEL "TROCOU"
+
+//CÓDIGO DA LARISSA (tem que saber quem é)
+db.alunas.updateMany({"nome":{$in:["Helena", "Sabrina", "Maria", "Arya"]}}, {$set:{"nasceuEmSp": "false"}})
+
+db.alunas.updateMany([
 {"nome": "Julia"},{
     $set: {"nasceuEmSp": false}
 }, 
@@ -43,8 +50,24 @@ db.alunas.update([
 
 ])
 
+Remove o campo todo chave e valor
+
+db.alunas.update([
+{"nome": "Sabrina"},{
+    $unset: {"dateOfBirth": "1980-07-20T08:30:00.000Z"}
+}
+
+])
 
 Inclua pelo menos 3 livros que elas tenham lido.
+db.alunas.update({_id: ("INSERIR O ID")},
+{$push:{
+    livros:{
+        $each: [{livro1}, {livro2}, {livro3}]
+    }
+    }
+    }
+)
 
 db.alunas.update([
 {"nome": "Marcia"},{
@@ -77,3 +100,34 @@ db.alunas.delete({}, {"livros.titulo": 1, _id: 0}).sort({"livros.titulo": 1}).li
 Por ordem de data de nascimento decrescente, a primeira data.
 
 db.alunas.delete({}, {"dateOfBirth": 1, _id: 0}).sort({"dateOfBirth": - 1}).limit(1).pretty()
+
+
+ANOTAÇÕES DA MONICA 
+
+MONGODB 02
+
+db.alunas.find({"livros.titulo" : /s$/i}).pretty()
+db.alunas.find({"livros.titulo" : /t$/i}).pretty()
+db.alunas.find({$or : [{"nome" : /k$/i , "nome": /o$/i}]}).pretty()    OU   db.alunas.find({"nome" : {$in:[/k$/, /o$/]}}).pretty()
+db.alunas.find({"nome" : /^a/i}).pretty
+db.alunas.find({$or:[{"nome":/^a/i}, {"nome":/^h/i}]}).pretty()
+
+
+SORT ()
+db.alunas.find().sort({"nome": 1}).pretty()
+db.alunas.find().sort({"_id": 1}).pretty()
+db.alunas.find().sort({"dateOfBirth" : 1}).pretty()
+
+CRIAR DOCUMENTO NO MONGODB
+db.alunas.insert()
+
+ALTERAR 
+db.alunas.update({"nome" : " Stephanie"}, {$set : {"nasceuEmSp" : "true"}})
+
+
+ADICIONAR 
+db.alunas.update({"nome" : "Stephanie "}, {$push: {"livros":{titulo": "Biblia", "leu": "true"}}})
+
+REMOVER/DELETAR
+
+db.alunas.update({"nome" : "Felipa "}, {$unset: {"nasceuEmSp" : "false"}})
